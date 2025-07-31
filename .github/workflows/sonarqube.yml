@@ -1,4 +1,5 @@
 name: SonarQube
+
 on:
   push:
     branches:
@@ -13,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
@@ -23,20 +25,17 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # <-- pip install -r requirements.txt
-          pip install pytest pytest-cov
+          pip install -r requirements.txt  # ✅ use requirements.txt here (should contain pytest + pytest-cov)
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=. --cov-report=xml
+          pytest --cov=. --cov-report=xml  # ✅ generates coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         with:
-          projectKey: sumanbdev_cbs-Impl      # <-- Update this to your actual key
-          organization: sumanbdev                    # <-- Update this to your org/account
-          token: ${{ secrets.SONAR_TOKEN }}
+          projectKey: sumanbdev_cbs-Impl       
+          organization: sumanbdev               
+          token: ${{ secrets.SONAR_TOKEN }}     
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-      # The SonarCloud action automatically picks up both code and the coverage.xml file
