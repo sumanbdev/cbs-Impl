@@ -1,6 +1,4 @@
 pandas
-os
-smtplib
-email
 pytest
 pytest-cov
+pylint
