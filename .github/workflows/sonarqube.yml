@@ -25,17 +25,18 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt  # ✅ use requirements.txt here (should contain pytest + pytest-cov)
+          pip install -r Automated_Mailing/requirements.txt
+          pip install pytest pytest-cov
 
       - name: Run tests with coverage
         run: |
-          pytest --cov=. --cov-report=xml  # ✅ generates coverage.xml
+          pytest Automated_Mailing/ --cov=Automated_Mailing --cov-report=xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         with:
-          projectKey: sumanbdev_cbs-Impl       
-          organization: sumanbdev               
-          token: ${{ secrets.SONAR_TOKEN }}     
+          projectKey: sumanbdev_cbs-Impl
+          organization: sumanbdev
+          token: ${{ secrets.SONAR_TOKEN }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
